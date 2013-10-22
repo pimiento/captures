@@ -1,0 +1,3 @@
+-e git://github.com/NetAngels/django-session-attachments.git#egg=django-session-attachments
+Django<1.5
+python-qt
