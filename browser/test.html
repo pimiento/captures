@@ -1,0 +1,13 @@
+<html>
+<script>
+  function takePhoto() {
+      var webcamPhoto = document.getElementById("picture"),
+          result = iface.takePhoto();
+      webcamPhoto.value = result;
+  }
+</script>
+
+<div>
+  <input type="text" id="picture" value="" readonly hidden="hidden" />
+  <input type="button" value="Take photo" onclick="takePhoto();" />
+</div>

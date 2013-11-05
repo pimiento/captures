@@ -9,8 +9,18 @@
 *******************************************************************
 """
 
+import os
 import sys
+import base64
+from camera import take_picture
 from PyQt4 import QtCore, QtGui, QtWebKit
+
+path = os.path.dirname(os.path.abspath(__file__))
+
+class IFace(QtCore.QObject):
+    @QtCore.pyqtSlot(result=str)
+    def takePhoto(self):
+        return base64.b64encode(take_picture())
 
 class Browser(QtGui.QMainWindow):
 
@@ -34,16 +44,6 @@ class Browser(QtGui.QMainWindow):
         self.gridLayout.setSpacing(0)
 
         self.horizontalLayout = QtGui.QHBoxLayout()
-        self.tb_url = QtGui.QLineEdit(self.frame)
-        self.bt_back = QtGui.QPushButton(self.frame)
-        self.bt_ahead = QtGui.QPushButton(self.frame)
-
-        self.bt_back.setIcon(QtGui.QIcon().fromTheme("go-previous"))
-        self.bt_ahead.setIcon(QtGui.QIcon().fromTheme("go-next"))
-
-        self.horizontalLayout.addWidget(self.bt_back)
-        self.horizontalLayout.addWidget(self.bt_ahead)
-        self.horizontalLayout.addWidget(self.tb_url)
         self.gridLayout.addLayout(self.horizontalLayout)
 
         self.html = QtWebKit.QWebView()
@@ -51,22 +51,12 @@ class Browser(QtGui.QMainWindow):
         self.mainLayout.addWidget(self.frame)
         self.setCentralWidget(self.centralwidget)
 
-        self.connect(self.tb_url, QtCore.SIGNAL("returnPressed()"), self.browse)
-        self.connect(self.bt_back, QtCore.SIGNAL("clicked()"), self.html.back)
-        self.connect(self.bt_ahead, QtCore.SIGNAL("clicked()"), self.html.forward)
+        self.iface = IFace(self)
+        self.html.page().mainFrame().addToJavaScriptWindowObject(
+            "iface", self.iface)
 
-        self.default_url = "http://shinydemos.com/clock/"
-        self.tb_url.setText(self.default_url)
-        self.browse()
-
-    def browse(self):
-        """
-            Make a web browse on a specific url and show the page on the
-            Webview widget.
-        """
-
-        url = self.tb_url.text() if self.tb_url.text() else self.default_url
-        self.html.load(QtCore.QUrl(url))
+        self.url = "file://%s/test.html" % path
+        self.html.load(QtCore.QUrl(self.url))
         self.html.show()
 
 if __name__ == "__main__":
