@@ -15,8 +15,6 @@ import base64
 from camera import take_picture
 from PyQt4 import QtCore, QtGui, QtWebKit
 
-path = os.path.dirname(os.path.abspath(__file__))
-
 class IFace(QtCore.QObject):
     @QtCore.pyqtSlot(result=str)
     def takePhoto(self):
@@ -55,7 +53,7 @@ class Browser(QtGui.QMainWindow):
         self.html.page().mainFrame().addToJavaScriptWindowObject(
             "iface", self.iface)
 
-        self.url = "file://%s/test.html" % path
+        self.url = "http://localhost:8000"
         self.html.load(QtCore.QUrl(self.url))
         self.html.show()
 
