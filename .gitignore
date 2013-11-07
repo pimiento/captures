@@ -37,3 +37,7 @@ nosetests.xml
 
 # database
 *.sql
+
+# Django
+settings.py
+media

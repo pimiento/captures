@@ -1,0 +1,28 @@
+<html>
+<script>
+  function takePhoto() {
+      var webcamPhoto = document.getElementById("id_photo"),
+          scanPhoto = document.getElementById("id_scan"),
+          result = iface.takePhoto();
+
+      webcamPhoto.value = result;
+  }
+  function checkWebcamAndScan() {
+      var webcamValue = document.getElementById("id_photo").value,
+          scanValue = document.getElementById("id_scan").value;
+      if (webcamValue === "" && scanValue === "") {
+          return confirm("Отправить форму без фото и скана?");
+      }
+  }
+</script>
+<form id="identificator" method="POST" onsubmit="return checkWebcamAndScan();">
+  {% csrf_token %}
+  {{ form.as_p }}
+</form>
+
+<input type="button" value="вебкамера" onclick="takePhoto();" />
+<input type="button" value="сканер" onclick="takeScan();" />
+<br /><br />
+<button type="submit" form="identificator">
+  Отправить
+</button>

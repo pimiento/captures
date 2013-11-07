@@ -1,3 +1,5 @@
+import os
+import time
 import tempfile
 import cv2.cv as cv
 
@@ -22,5 +24,6 @@ def take_picture():
         if cv.WaitKey(10) in [10, 27, 32] or FLAG:
             cv.SaveImage(filename, img)
             break
+    time.sleep(5)
     cv.DestroyAllWindows()
     return open(filename, "r").read()
