@@ -2,10 +2,15 @@
 <script>
   function takePhoto() {
       var webcamPhoto = document.getElementById("id_photo"),
-          scanPhoto = document.getElementById("id_scan"),
           result = iface.takePhoto();
 
       webcamPhoto.value = result;
+  }
+  function takeScan() {
+      var scanPhoto = document.getElementById("id_scan"),
+          result = iface.takeScan();
+
+      scanPhoto.value = result;
   }
   function checkWebcamAndScan() {
       var webcamValue = document.getElementById("id_photo").value,

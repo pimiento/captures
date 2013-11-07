@@ -12,6 +12,7 @@
 import os
 import sys
 import base64
+from scanner import take_scan
 from camera import take_picture
 from PyQt4 import QtCore, QtGui, QtWebKit
 
@@ -19,6 +20,10 @@ class IFace(QtCore.QObject):
     @QtCore.pyqtSlot(result=str)
     def takePhoto(self):
         return base64.b64encode(take_picture())
+
+    @QtCore.pyqtSlot(result=str)
+    def takeScan(self):
+        return base64.b64encode(take_scan())
 
 class Browser(QtGui.QMainWindow):
 
